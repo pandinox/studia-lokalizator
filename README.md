@@ -2,7 +2,7 @@
 
 Aplikacja typu **Progressive Web Application (PWA)** wspomagająca zarządzanie lokalizacjami magazynowymi.
 
-Projekt umożliwia szybkie sprawdzanie lokalizacji produktu, zmianę lokalizacji, rejestrowanie historii zmian oraz zarządzanie użytkownikami przy wykorzystaniu **Google Apps Script** i **Arkuszy Google** jako backendu.
+Projekt umożliwia szybkie sprawdzanie lokalizacji produktu, zmianę lokalizacji, rejestrowanie historii zmian oraz zarządzanie użytkownikami przy wykorzystaniu **Google Apps Script** oraz **Arkuszy Google** jako backendu.
 
 ---
 
@@ -48,7 +48,7 @@ Dla każdej zmiany zapisywane są informacje:
 * możliwość instalacji na telefonie,
 * możliwość instalacji na komputerze,
 * działanie bez konieczności publikacji w sklepie Google Play,
-* obsługa pliku manifest oraz Service Worker.
+* obsługa pliku Manifest oraz Service Worker.
 
 ---
 
@@ -116,6 +116,10 @@ Lista aktualnie aktywnych użytkowników.
 
 Lista autoryzowanych urządzeń wraz z przypisanymi tokenami.
 
+Każde urządzenie korzystające z aplikacji musi posiadać wpis w tej zakładce.
+
+Dane zapisane w aplikacji muszą być zgodne z wartościami znajdującymi się w arkuszu.
+
 ---
 
 # Instalacja
@@ -123,7 +127,7 @@ Lista autoryzowanych urządzeń wraz z przypisanymi tokenami.
 ## 1. Przygotowanie arkusza Google
 
 1. Prześlij plik `Magazyn.xlsx` na Dysk Google.
-2. Otwórz plik.
+2. Otwórz przesłany plik.
 3. Wybierz:
 
 ```text
@@ -184,7 +188,45 @@ Każdy
 
 ---
 
-## 4. Nadanie uprawnień
+## 4. Konfiguracja pliku main.js
+
+Po utworzeniu wdrożenia Google Apps Script należy skonfigurować aplikację frontendową.
+
+Otwórz plik:
+
+```text
+main.js
+```
+
+### Konfiguracja adresu backendu
+
+Znajdź zmienną przechowującą adres Google Apps Script i wklej adres wdrożenia zakończony na:
+
+```text
+/exec
+```
+
+Przykład:
+
+```javascript
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxxxxxxxxxxxxxxxxxxxx/exec";
+```
+
+### Konfiguracja hasła ustawień
+
+W pliku `main.js` znajduje się również hasło umożliwiające dostęp do panelu ustawień.
+
+Przykład:
+
+```javascript
+const ADMIN_PASSWORD = "1234";
+```
+
+Hasło można zmienić według własnych potrzeb.
+
+---
+
+## 5. Nadanie uprawnień
 
 Po utworzeniu wdrożenia należy jednorazowo uruchomić aplikację Apps Script.
 
@@ -196,7 +238,31 @@ Po wykonaniu tego kroku backend będzie gotowy do pracy.
 
 ---
 
-## 5. Konfiguracja aplikacji
+## 6. Konfiguracja aplikacji
+
+Przed pierwszym użyciem należy dodać urządzenie do arkusza autoryzacji.
+
+Otwórz zakładkę:
+
+```text
+Autoryzacje
+```
+
+i dodaj nowy wpis zawierający:
+
+* Device ID,
+* Token 1,
+* Token 2.
+
+Przykład:
+
+| Device ID | Token 1 | Token 2 |
+| --------- | ------- | ------- |
+| MAGAZYN01 | abc123  | xyz789  |
+
+Wartości wpisane w arkuszu muszą być identyczne z wartościami podanymi później w ustawieniach aplikacji.
+
+Następnie:
 
 1. Uruchom aplikację.
 2. Wejdź do sekcji:
@@ -213,21 +279,15 @@ Ustawienia
 
 4. Zapisz konfigurację.
 
+Po poprawnej konfiguracji urządzenie zostanie autoryzowane i uzyska dostęp do funkcji aplikacji.
+
 ---
 
 # Uruchomienie
 
 ## Lokalnie
 
-Otwórz plik:
-
-```text
-index.html
-```
-
-lub uruchom projekt przy pomocy dowolnego lokalnego serwera HTTP.
-
----
+Otwórz plik `index.html` lub uruchom projekt przy pomocy lokalnego serwera HTTP.
 
 ## GitHub Pages
 
@@ -272,12 +332,14 @@ Repozytorium zawiera przykładowy plik `Magazyn.xlsx`, który umożliwia szybkie
 
 Hasło w sekcji ustawień służy wyłącznie do ochrony lokalnej konfiguracji urządzenia.
 
-Nie zapewnia ono ochrony danych magazynowych ani nie pełni funkcji autoryzacji użytkowników systemu. Błędna konfiguracja może jedynie uniemożliwić działanie aplikacji na danym urządzeniu.
+Nie zapewnia ono ochrony danych magazynowych ani nie pełni funkcji autoryzacji użytkowników systemu.
+
+Błędna konfiguracja może jedynie uniemożliwić działanie aplikacji na danym urządzeniu.
 
 ---
 
 # Autor
 
-Pandaren256 (Mateusz Babiński)
+Pandinox
 
 Projekt wykonany w ramach zajęć akademickich oraz rozwijany jako praktyczne narzędzie wspomagające pracę magazynową.
