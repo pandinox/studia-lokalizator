@@ -1,66 +1,80 @@
 # Magazyn PWA
 
-Aplikacja typu Progressive Web Application (PWA) wspomagająca zarządzanie lokalizacjami magazynowymi. System umożliwia szybkie sprawdzanie aktualnej lokalizacji produktu, zmianę lokalizacji oraz rejestrowanie historii operacji wykonywanych przez użytkowników.
+Aplikacja typu **Progressive Web Application (PWA)** wspomagająca zarządzanie lokalizacjami magazynowymi.
 
-Projekt wykorzystuje Google Apps Script jako warstwę backendową oraz Arkusze Google jako bazę danych.
+Projekt umożliwia szybkie sprawdzanie lokalizacji produktu, zmianę lokalizacji, rejestrowanie historii zmian oraz zarządzanie użytkownikami przy wykorzystaniu **Google Apps Script** i **Arkuszy Google** jako backendu.
 
-## Funkcjonalności
+---
 
-### Zarządzanie użytkownikami
+# Funkcjonalności
+
+## Zarządzanie użytkownikami
 
 * wybór użytkownika z listy pobieranej z backendu,
 * zapamiętywanie aktywnego użytkownika,
 * rejestrowanie użytkownika wykonującego operacje magazynowe.
 
-### Sprawdzanie lokalizacji
+## Sprawdzanie lokalizacji
 
 * wyszukiwanie produktu po kodzie,
-* wyświetlanie aktualnej lokalizacji magazynowej,
-* podgląd historii zmian lokalizacji.
+* wyświetlanie aktualnej lokalizacji,
+* szybki dostęp do historii zmian lokalizacji.
 
-### Zmiana lokalizacji
+## Zmiana lokalizacji
 
 * odczyt bieżącej lokalizacji produktu,
 * przypisanie nowej lokalizacji,
 * automatyczny zapis historii zmian.
 
-### Konfiguracja urządzenia
+## Historia zmian
 
-* konfiguracja identyfikatora urządzenia (Device ID),
-* konfiguracja tokenów autoryzacyjnych,
-* zapis ustawień lokalnych w przeglądarce.
+Dla każdej zmiany zapisywane są informacje:
 
-### Progressive Web App
+* data i godzina operacji,
+* użytkownik wykonujący zmianę,
+* poprzednia lokalizacja,
+* nowa lokalizacja,
+* identyfikator produktu.
 
-* możliwość instalacji na urządzeniach mobilnych,
-* działanie w przeglądarce internetowej,
+## Konfiguracja urządzenia
+
+* Device ID,
+* Token 1,
+* Token 2,
+* lokalny zapis ustawień urządzenia.
+
+## PWA (Progressive Web Application)
+
+* możliwość instalacji na telefonie,
+* możliwość instalacji na komputerze,
+* działanie bez konieczności publikacji w sklepie Google Play,
 * obsługa pliku manifest oraz Service Worker.
 
 ---
 
-## Wykorzystane technologie
+# Wykorzystane technologie
 
-### Frontend
+## Frontend
 
 * HTML5
 * CSS3
 * JavaScript (Vanilla JS)
 
-### Backend
+## Backend
 
 * Google Apps Script
 
-### Baza danych
+## Baza danych
 
 * Google Sheets
 
-### Hosting
+## Hosting
 
 * GitHub Pages
 
 ---
 
-## Struktura projektu
+# Struktura projektu
 
 ```text
 .
@@ -70,88 +84,177 @@ Projekt wykorzystuje Google Apps Script jako warstwę backendową oraz Arkusze G
 ├── service-worker.js
 ├── JSONP_Code.gs
 ├── Magazyn.xlsx
+├── icons/
+│   ├── icon-192.png
+│   └── icon-512.png
 └── README.md
 ```
 
 ---
 
-## Struktura arkusza Google
+# Struktura arkusza
 
-Projekt wykorzystuje następujące arkusze:
+Projekt wykorzystuje następujące zakładki:
 
-### Magazyn
+## Magazyn
 
-Przechowuje informacje o produktach i ich aktualnych lokalizacjach.
+Przechowuje dane produktów oraz ich aktualne lokalizacje magazynowe.
 
-### HistoriaZmian
+## HistoriaZmian
 
-Przechowuje historię wszystkich wykonanych zmian lokalizacji.
+Przechowuje historię wszystkich zmian lokalizacji.
 
-### Uzytkownicy
+## Uzytkownicy
 
-Lista użytkowników dostępnych w systemie.
+Lista użytkowników dostępnych w aplikacji.
 
-### AktywniUzytkownicy
+## AktywniUzytkownicy
 
-Rejestr aktualnie aktywnych użytkowników.
+Lista aktualnie aktywnych użytkowników.
 
-### Autoryzacje
+## Autoryzacje
 
-Lista autoryzowanych urządzeń wraz z tokenami.
-
----
-
-## Instalacja backendu
-
-1. Utwórz nowy Arkusz Google.
-2. Dodaj wymagane zakładki:
-
-   * Magazyn
-   * HistoriaZmian
-   * Uzytkownicy
-   * AktywniUzytkownicy
-   * Autoryzacje
-3. Otwórz Google Apps Script.
-4. Wklej zawartość pliku `JSONP_Code.gs`.
-5. Opublikuj projekt jako Web App.
-6. Skopiuj adres URL wdrożenia.
+Lista autoryzowanych urządzeń wraz z przypisanymi tokenami.
 
 ---
 
-## Konfiguracja aplikacji
+# Instalacja
 
-1. Otwórz aplikację.
-2. Wejdź do sekcji „Ustawienia”.
+## 1. Przygotowanie arkusza Google
+
+1. Prześlij plik `Magazyn.xlsx` na Dysk Google.
+2. Otwórz plik.
+3. Wybierz:
+
+```text
+Plik → Zapisz jako plik Arkuszy Google
+```
+
+4. Powstanie nowy arkusz w formacie Google Sheets.
+5. Otwórz nowo utworzony arkusz.
+
+---
+
+## 2. Konfiguracja Google Apps Script
+
+1. Otwórz utworzony wcześniej arkusz Google.
+2. Wybierz:
+
+```text
+Rozszerzenia → Apps Script
+```
+
+3. Usuń domyślną zawartość projektu.
+4. Wklej kod z pliku:
+
+```text
+JSONP_Code.gs
+```
+
+5. Zapisz projekt.
+
+---
+
+## 3. Publikacja aplikacji Apps Script
+
+1. Wybierz:
+
+```text
+Wdrożenia → Nowe wdrożenie
+```
+
+2. Typ wdrożenia:
+
+```text
+Aplikacja internetowa
+```
+
+3. Ustaw:
+
+```text
+Uruchamiaj jako:
+Ja
+
+Kto ma dostęp:
+Każdy
+```
+
+4. Zatwierdź wdrożenie.
+5. Skopiuj wygenerowany adres URL aplikacji.
+
+---
+
+## 4. Nadanie uprawnień
+
+Po utworzeniu wdrożenia należy jednorazowo uruchomić aplikację Apps Script.
+
+1. Otwórz wygenerowany adres URL w przeglądarce.
+2. Google poprosi o przyznanie wymaganych uprawnień.
+3. Zaakceptuj wszystkie wymagane zgody.
+
+Po wykonaniu tego kroku backend będzie gotowy do pracy.
+
+---
+
+## 5. Konfiguracja aplikacji
+
+1. Uruchom aplikację.
+2. Wejdź do sekcji:
+
+```text
+Ustawienia
+```
+
 3. Wprowadź:
 
-   * Device ID,
-   * Token 1,
-   * Token 2.
+* Device ID,
+* Token 1,
+* Token 2.
+
 4. Zapisz konfigurację.
 
 ---
 
-## Uruchomienie
+# Uruchomienie
 
-### Lokalnie
+## Lokalnie
 
-Wystarczy otworzyć plik:
+Otwórz plik:
 
 ```text
 index.html
 ```
 
-lub uruchomić projekt przy pomocy lokalnego serwera HTTP.
+lub uruchom projekt przy pomocy dowolnego lokalnego serwera HTTP.
 
-### GitHub Pages
+---
 
-Aplikacja może zostać opublikowana za pomocą GitHub Pages:
+## GitHub Pages
+
+Aplikacja może zostać opublikowana poprzez GitHub Pages.
+
+1. Wejdź do ustawień repozytorium.
+2. Otwórz zakładkę:
 
 ```text
-Settings → Pages → Deploy from Branch
+Settings → Pages
 ```
 
-Po publikacji aplikacja będzie dostępna pod adresem:
+3. Wybierz:
+
+```text
+Deploy from a branch
+```
+
+4. Wskaż gałąź:
+
+```text
+main
+```
+
+5. Zapisz ustawienia.
+
+Po kilku minutach aplikacja będzie dostępna pod adresem:
 
 ```text
 https://twoj-login.github.io/nazwa-repozytorium/
@@ -159,14 +262,22 @@ https://twoj-login.github.io/nazwa-repozytorium/
 
 ---
 
-## Wersja demonstracyjna
+# Wersja demonstracyjna
 
-Repozytorium zawiera przykładowy arkusz danych (`Magazyn.xlsx`), który umożliwia szybkie uruchomienie projektu bez konieczności tworzenia własnej bazy danych.
+Repozytorium zawiera przykładowy plik `Magazyn.xlsx`, który umożliwia szybkie uruchomienie projektu bez konieczności samodzielnego tworzenia struktury arkusza.
 
 ---
 
-## Autor
+# Informacje dotyczące bezpieczeństwa
 
-Pandinox
+Hasło w sekcji ustawień służy wyłącznie do ochrony lokalnej konfiguracji urządzenia.
+
+Nie zapewnia ono ochrony danych magazynowych ani nie pełni funkcji autoryzacji użytkowników systemu. Błędna konfiguracja może jedynie uniemożliwić działanie aplikacji na danym urządzeniu.
+
+---
+
+# Autor
+
+Pandaren256 (Mateusz Babiński)
 
 Projekt wykonany w ramach zajęć akademickich oraz rozwijany jako praktyczne narzędzie wspomagające pracę magazynową.
